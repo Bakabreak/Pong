@@ -3,14 +3,18 @@
 //
 
 #include "Ball.h"
+#include "Player.h"
 #include <GLFW/glfw3.h>
 #include <cmath>
+#include <list>
 
 Ball::Ball(float ballRadius) {
     this->radius = ballRadius;
 }
 
 void Ball::update() {
+    this->lastPosX = this->posX;
+    this->lastPosY = this->posY;
     this->posX += this->speed * std::cos(this->angle);
     this->posY += this->speed * std::sin(this->angle);
 }
@@ -36,3 +40,11 @@ void Ball::renderBall() {
     }
     glEnd();
 }
+
+//void Ball::collisionCheck(std::list<Player>& aPlayerList){
+//    for (const auto &item: aPlayerList){
+//        this->playerLine = item
+//        if(std::sqrtf(std::powf(this->posY - item.posY,2) + std::powf(this->posX - item.posX,2)) < ;
+//
+//    }
+//}
