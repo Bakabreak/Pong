@@ -5,7 +5,7 @@
 #ifndef PONG_GAME_HANDLER_H
 #define PONG_GAME_HANDLER_H
 
-#include "GameHandler.h"
+#include "../GameHandler.h"
 #include "player.h"
 #include "ball.h"
 

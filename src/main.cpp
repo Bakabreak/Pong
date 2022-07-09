@@ -5,7 +5,7 @@
 #include <thread>
 #include <iomanip>
 #include "GameHandler.h"
-#include "PongGameHandler.h"
+#include "pong/PongGameHandler.h"
 
 const int WINDOW_WIDTH = 1500, WINDOW_HEIGHT = 900;
 const int TARGET_FPS = 60;
