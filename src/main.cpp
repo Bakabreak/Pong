@@ -6,6 +6,7 @@
 #include <iomanip>
 #include "GameHandler.h"
 #include "pong/PongGameHandler.h"
+#include "Input.h"
 
 const int WINDOW_WIDTH = 1500, WINDOW_HEIGHT = 900;
 const int TARGET_FPS = 60;
@@ -25,6 +26,9 @@ int main() {
 
     // Creat a game object
     GameHandler &game = *new PongGameHandler();
+
+    // Initialize the input handler
+    input::initialize(window, game);
 
     // Run the game
     startGameLoop(window, game);
@@ -49,6 +53,9 @@ GLFWwindow *createWindow() {
         glfwTerminate();
         throw std::runtime_error("Failed to create window!");
     }
+
+    // Set the key callback for keyboard events
+    glfwSetKeyCallback(window, input::handleKeyEvent);
 
     // Center the window on the screen
     int screenWidth = GetSystemMetrics(SM_CXSCREEN);
