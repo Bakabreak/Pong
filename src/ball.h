@@ -1,6 +1,10 @@
 //
 // Created by Qiu Le Chen on 09-Jul-22.
 //
+
+#ifndef BALL_H
+#define BALL_H
+
 class Ball{
 public:
     float posX = 0;
@@ -14,3 +18,5 @@ public:
     void setAngle(float angle);
     void renderBall();
 };
+
+#endif

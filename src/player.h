@@ -2,6 +2,8 @@
 // Created by Qiu Le Chen on 09-Jul-22.
 //
 
+#ifndef PLAYER_H
+#define PLAYER_H
 
 class Player{
 public:
@@ -18,3 +20,5 @@ public:
     void updatePos(float xNew, float yNew);
     void renderPlayer();
 };
+
+#endif
