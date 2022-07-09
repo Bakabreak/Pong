@@ -3,7 +3,7 @@ project(Pong)
 
 set(CMAKE_CXX_STANDARD 20)
 
-file(GLOB SOURCES CONFIGURE_DEPENDS "src/*.cpp")
+file(GLOB_RECURSE SOURCES CONFIGURE_DEPENDS "src/*.cpp")
 add_executable(Pong ${SOURCES})
 
 include_directories(${CMAKE_SOURCE_DIR}/dependencies/glfw/include/)
