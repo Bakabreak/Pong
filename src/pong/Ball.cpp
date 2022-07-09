@@ -2,7 +2,7 @@
 // Created by Qiu Le Chen on 09-Jul-22.
 //
 
-#include "ball.h"
+#include "Ball.h"
 #include <GLFW/glfw3.h>
 #include <cmath>
 

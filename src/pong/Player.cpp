@@ -1,7 +1,7 @@
 //
 // Created by Qiu Le Chen on 09-Jul-22.
 //
-#include "player.h"
+#include "Player.h"
 #include <GLFW/glfw3.h>
 
 Player::Player(int aPlayerId) {

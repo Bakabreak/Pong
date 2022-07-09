@@ -6,8 +6,8 @@
 #define PONG_GAME_HANDLER_H
 
 #include "../GameHandler.h"
-#include "player.h"
-#include "ball.h"
+#include "Player.h"
+#include "Ball.h"
 
 class PongGameHandler : public GameHandler {
 public:
