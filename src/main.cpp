@@ -4,21 +4,41 @@
 #include <Windows.h>
 #include <thread>
 #include <iomanip>
+#include "GameHandler.h"
+#include "PongGameHandler.h"
 
 const int WINDOW_WIDTH = 1500, WINDOW_HEIGHT = 900;
 const int TARGET_FPS = 60;
 double frame_rate = 0, update_time = 0, render_time = 0;
+
+GLFWwindow *createWindow();
+
+void startGameLoop(GLFWwindow *, GameHandler &);
 
 unsigned long current_time() {
     return std::chrono::system_clock::now().time_since_epoch().count() / 10000l;
 }
 
 int main() {
+    // Create a window
+    GLFWwindow *window = createWindow();
+
+    // Creat a game object
+    GameHandler &game = *new PongGameHandler();
+
+    // Run the game
+    startGameLoop(window, game);
+
+    glfwTerminate();
+    return 0;
+}
+
+GLFWwindow *createWindow() {
     GLFWwindow *window;
 
     // Initialize the GLFW library
     if (!glfwInit())
-        return -1;
+        throw std::runtime_error("Failed to initialize GLFW!");
 
     // Specify window attributes
     glfwWindowHint(GLFW_RESIZABLE, false);
@@ -27,7 +47,7 @@ int main() {
     window = glfwCreateWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Hello World", nullptr, nullptr);
     if (!window) {
         glfwTerminate();
-        return -1;
+        throw std::runtime_error("Failed to create window!");
     }
 
     // Center the window on the screen
@@ -39,11 +59,20 @@ int main() {
     // Make the window's context current
     glfwMakeContextCurrent(window);
 
+    return window;
+}
+
+void startGameLoop(GLFWwindow *window, GameHandler &game) {
+    // First initialize the game
+    game.initialize();
+
+    // Define target time per frame
     double targetDeltaFrames = 1000.0 / TARGET_FPS, targetDeltaCounter = 1000.0;
     double deltaFrames = 0, deltaCounter = 0;
     unsigned int frame_count = 0;
     unsigned long now = current_time(), last;
 
+    // Keep track of time per update/frame
     unsigned long timer_start;
     unsigned long update_time_sum = 0, render_time_sum = 0;
 
@@ -58,7 +87,8 @@ int main() {
         if (deltaFrames >= targetDeltaFrames) {
             timer_start = current_time();
 
-            // TODO update here
+            // Update the game
+            game.update();
 
             update_time_sum += current_time() - timer_start;
             timer_start = current_time();
@@ -70,7 +100,8 @@ int main() {
             glPushMatrix();
             glScaled(1, (double) WINDOW_WIDTH / WINDOW_HEIGHT, 1);
 
-            // TODO render here
+            // Render the game
+            game.render();
 
             glPopMatrix();
 
@@ -117,7 +148,4 @@ int main() {
             }
         }
     }
-
-    glfwTerminate();
-    return 0;
 }
