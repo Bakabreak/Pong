@@ -3,7 +3,8 @@ project(Pong)
 
 set(CMAKE_CXX_STANDARD 20)
 
-add_executable(Pong src/main.cpp src/player.cpp src/ball.cpp src/PongGameHandler.cpp)
+file(GLOB SOURCES CONFIGURE_DEPENDS "src/*.cpp")
+add_executable(Pong ${SOURCES})
 
 include_directories(${CMAKE_SOURCE_DIR}/dependencies/glfw/include/)
 target_link_libraries(Pong ${CMAKE_SOURCE_DIR}/dependencies/glfw/lib-vc2019/glfw3.lib)
