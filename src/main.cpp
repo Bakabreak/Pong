@@ -9,13 +9,13 @@
 
 const int WINDOW_WIDTH = 1500, WINDOW_HEIGHT = 900;
 const int TARGET_FPS = 60;
-double frame_rate = 0, update_time = 0, render_time = 0;
+double frameRate = 0, updateTime = 0, renderTime = 0;
 
 GLFWwindow *createWindow();
 
 void startGameLoop(GLFWwindow *, GameHandler &);
 
-unsigned long current_time() {
+unsigned long currentTime() {
     return std::chrono::system_clock::now().time_since_epoch().count() / 10000l;
 }
 
@@ -51,10 +51,10 @@ GLFWwindow *createWindow() {
     }
 
     // Center the window on the screen
-    int screen_width = GetSystemMetrics(SM_CXSCREEN);
-    int screen_height = GetSystemMetrics(SM_CYSCREEN);
-    glfwSetWindowMonitor(window, nullptr, (screen_width / 2) - (WINDOW_WIDTH / 2),
-                         (screen_height / 2) - (WINDOW_HEIGHT / 2), WINDOW_WIDTH, WINDOW_HEIGHT, GLFW_DONT_CARE);
+    int screenWidth = GetSystemMetrics(SM_CXSCREEN);
+    int screenHeight = GetSystemMetrics(SM_CYSCREEN);
+    glfwSetWindowMonitor(window, nullptr, (screenWidth / 2) - (WINDOW_WIDTH / 2),
+                         (screenHeight / 2) - (WINDOW_HEIGHT / 2), WINDOW_WIDTH, WINDOW_HEIGHT, GLFW_DONT_CARE);
 
     // Make the window's context current
     glfwMakeContextCurrent(window);
@@ -69,29 +69,29 @@ void startGameLoop(GLFWwindow *window, GameHandler &game) {
     // Define target time per frame
     double targetDeltaFrames = 1000.0 / TARGET_FPS, targetDeltaCounter = 1000.0;
     double deltaFrames = 0, deltaCounter = 0;
-    unsigned int frame_count = 0;
-    unsigned long now = current_time(), last;
+    unsigned int frameCount = 0;
+    unsigned long now = currentTime(), last;
 
     // Keep track of time per update/frame
-    unsigned long timer_start;
-    unsigned long update_time_sum = 0, render_time_sum = 0;
+    unsigned long timerStart;
+    unsigned long updateTimeSum = 0, renderTimeSum = 0;
 
     // Loop until the user closes the window
     while (!glfwWindowShouldClose(window)) {
         last = now;
-        now = current_time();
+        now = currentTime();
         unsigned long passed = now - last;
 
         // Check if enough time has passed for a new frame
         deltaFrames += passed;
         if (deltaFrames >= targetDeltaFrames) {
-            timer_start = current_time();
+            timerStart = currentTime();
 
             // Update the game
             game.update();
 
-            update_time_sum += current_time() - timer_start;
-            timer_start = current_time();
+            updateTimeSum += currentTime() - timerStart;
+            timerStart = currentTime();
 
             // Clear the buffers
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -108,10 +108,10 @@ void startGameLoop(GLFWwindow *window, GameHandler &game) {
             // Swap front and back buffers
             glfwSwapBuffers(window);
 
-            render_time_sum += current_time() - timer_start;
+            renderTimeSum += currentTime() - timerStart;
 
             // Increase frame count
-            frame_count++;
+            frameCount++;
 
             deltaFrames -= targetDeltaFrames;
         }
@@ -120,17 +120,17 @@ void startGameLoop(GLFWwindow *window, GameHandler &game) {
         deltaCounter += passed;
         if (deltaCounter >= targetDeltaCounter) {
             // Calculate stats
-            frame_rate = frame_count;
-            update_time = (double) update_time_sum / frame_count;
-            render_time = (double) render_time_sum / frame_count;
-            frame_count = 0;
-            update_time_sum = 0;
-            render_time_sum = 0;
+            frameRate = frameCount;
+            updateTime = (double) updateTimeSum / frameCount;
+            renderTime = (double) renderTimeSum / frameCount;
+            frameCount = 0;
+            updateTimeSum = 0;
+            renderTimeSum = 0;
 
             // Print FPS and update/render times
-            std::cout << "fps: " << frame_rate << " / " << TARGET_FPS
-                      << ", update time: " << std::setprecision(1) << update_time
-                      << " ms, render time: " << std::setprecision(1) << render_time << " ms"
+            std::cout << "fps: " << frameRate << " / " << TARGET_FPS
+                      << ", update time: " << std::setprecision(1) << updateTime
+                      << " ms, render time: " << std::setprecision(1) << renderTime << " ms"
                       << std::fixed << std::endl;
 
             deltaCounter -= targetDeltaCounter;
