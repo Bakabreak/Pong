@@ -3,6 +3,7 @@
 #include <iostream>
 #include <Windows.h>
 #include <thread>
+#include <iomanip>
 
 const int WINDOW_WIDTH = 1500, WINDOW_HEIGHT = 900;
 const int TARGET_FPS = 60;
