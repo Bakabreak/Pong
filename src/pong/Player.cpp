@@ -30,6 +30,14 @@ float Player::getPosY() {
     return this->posY;
 }
 
+float Player::getAngle() {
+    return angle;
+}
+
+void Player::setAngle(float aAngle) {
+    this->angle = aAngle;
+}
+
 void Player::updatePos(float xNew, float yNew) {
     this->posX = xNew;
     this->posY = yNew;
@@ -58,20 +66,27 @@ void Player::update() {
     if (input::isKeyDown(this->keyUp)) {
         moveUp();
     }
-    if (input::isKeyDown(this->keyRight)){
+    if (input::isKeyDown(this->keyRight)) {
         turnRight();
     }
-    if (input::isKeyDown(this->keyLeft)){
+    if (input::isKeyDown(this->keyLeft)) {
         turnLeft();
     }
 };
 
 void Player::renderPlayer() {
     glColor3f(1, 1, 1);
+
+    glPushMatrix();
+    glTranslatef(this->posX, this->posY, 0);
+    glRotatef(this->angle*180/3.141592654 , 0, 0, 1);
+
     glBegin(GL_POLYGON);
-    glVertex2d(posX - (width / 2)*std::cos(this->angle + (height / 2)*std::sin(this->angle)), posY - (height / 2)*std::sin(this->angle));
-    glVertex2d(posX + (width / 2)*std::cos(this->angle), posY - (height / 2)*std::sin(this->angle));
-    glVertex2d(posX + (width / 2)*std::cos(this->angle), posY + (height / 2)*std::sin(this->angle));
-    glVertex2d(posX - (width / 2)*std::cos(this->angle), posY + (height / 2)*std::sin(this->angle));
+    glVertex2d(-this->width / 2, -this->height / 2);
+    glVertex2d(this->width / 2, -this->height / 2);
+    glVertex2d(this->width / 2, this->height / 2);
+    glVertex2d(-this->width / 2, this->height / 2);
     glEnd();
+
+    glPopMatrix();
 }

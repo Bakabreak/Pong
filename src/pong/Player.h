@@ -5,16 +5,13 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
-class Player {
+#include "CollisionBox.h"
+
+class Player : public CollisionBox{
 public:
-    float posX;
-    float posY;
-    float angle = 0;
     int playerId;
-    float width;
-    float height;
     float speed = 0.01;
-    float rotSpeed = 0.1;
+    float rotSpeed = 0.01;
     int keyUp;
     int keyDown;
     int keyLeft;
@@ -31,6 +28,10 @@ public:
 
     float getPosY();
 
+    float getAngle();
+
+    void setAngle(float angle);
+
     void update();
 
     void turnRight();
@@ -44,6 +45,7 @@ public:
     void updatePos(float xNew, float yNew);
 
     void renderPlayer();
+
 };
 
 #endif
