@@ -7,6 +7,7 @@
 #include <GLFW/glfw3.h>
 #include <cmath>
 #include <list>
+#include <iostream>
 
 Ball::Ball(float ballRadius) {
     this->radius = ballRadius;
@@ -41,10 +42,100 @@ void Ball::renderBall() {
     glEnd();
 }
 
-//void Ball::collisionCheck(std::list<Player>& aPlayerList){
-//    for (const auto &item: aPlayerList){
-//        this->playerLine = item
-//        if(std::sqrtf(std::powf(this->posY - item.posY,2) + std::powf(this->posX - item.posX,2)) < ;
-//
-//    }
-//}
+void Ball::collisionCheck(std::list<CollisionBox> aPlayerList) {
+    float transPosX;
+    float transPosY;
+    float rotPosX;
+    float rotPosY;
+    float transLastPosX;
+    float transLastPosY;
+    float rotLastPosX;
+    float rotLastPosY;
+    float pi = 3.141592654;
+    float rotAngle;
+    float cornerAngle;
+    float normRotAngle;
+
+    for (CollisionBox item: aPlayerList) {
+        transPosX = this->posX - item.getPosX();
+        transPosY = this->posY - item.getPosY();
+        rotPosX = transPosX * std::cos(item.getAngle()) + transPosY * std::sin(item.getAngle());
+        rotPosY = -transPosX * std::sin(item.getAngle()) + transPosY * std::cos(item.getAngle());
+        transLastPosX = this->lastPosX - item.getPosX();
+        transLastPosY = this->lastPosY - item.getPosY();
+        rotLastPosX = transLastPosX * std::cos(item.getAngle()) + transLastPosY * std::sin(item.getAngle());
+        rotLastPosY = -transLastPosX * std::sin(item.getAngle()) + transLastPosY * std::cos(item.getAngle());
+
+        if (std::abs(rotLastPosX) <= item.getWidth() / 2 + this->radius &&
+            std::abs(rotLastPosY) <= item.getHeight() / 2 + this->radius) {
+            continue;
+        }
+        if (std::abs(rotPosX) < item.getWidth() / 2 + this->radius &&
+            std::abs(rotPosY) < item.getHeight() / 2 + this->radius) {
+
+            rotAngle = this->angle - item.getAngle();
+            normRotAngle = std::fmod(std::fmod(rotAngle, 2 * pi) + 2 * pi, 2 * pi);
+
+            if (normRotAngle >= 0 && normRotAngle <= 0.5 * pi) {
+                cornerAngle =
+                        std::fmod(std::atan2(item.getHeight() / 2 - this->lastPosY, item.getWidth() / 2 - this->lastPosX) + 2*pi, 2*pi);
+                std::cout << 1 << std::endl;
+                if (!std::signbit(cornerAngle - normRotAngle)) {
+                    std::cout << "1" << std::endl;
+                    this->angle = (pi -rotAngle) + item.getAngle();
+                } else {
+                    std::cout << "2" << std::endl;
+                    this->angle =  -rotAngle + item.getAngle();
+                }
+            }
+
+            if (normRotAngle > 0.5 * pi && normRotAngle <= pi) {
+                cornerAngle =
+                        std::fmod(std::atan2(item.getHeight() / 2 - this->lastPosY, item.getWidth() / 2 - this->lastPosX) + 2*pi, 2*pi);
+                std::cout << 2 << std::endl;
+                if (!std::signbit(cornerAngle - normRotAngle)) {
+                    std::cout << "1" << std::endl;
+                    this->angle =  - rotAngle + item.getAngle();
+                } else {
+                    std::cout << "2" << std::endl;
+                    this->angle = pi - rotAngle + item.getAngle();
+                }
+            }
+            if (normRotAngle > pi && normRotAngle <= 1.5 * pi) {
+                cornerAngle =
+                        std::fmod(std::atan2(item.getHeight() / 2 - this->lastPosY, item.getWidth() / 2 - this->lastPosX) + 2*pi, 2*pi);
+                std::cout << 3 << std::endl;
+                if (!std::signbit(cornerAngle - normRotAngle)) {
+                    std::cout << "1" << std::endl;
+                    this->angle = pi -rotAngle + item.getAngle();
+                } else {
+                    std::cout << "2" << std::endl;
+                    this->angle =  - rotAngle + item.getAngle();
+                }
+            }
+            if (normRotAngle > 1.5 * pi && normRotAngle <= 2 * pi) {
+                cornerAngle =
+                        std::fmod(std::atan2(item.getHeight() / 2 - this->lastPosY, item.getWidth() / 2 - this->lastPosX) + 2*pi, 2*pi);
+                std::cout << 4 << std::endl;
+                if (!std::signbit(cornerAngle - normRotAngle)) {
+                    std::cout << "1" << std::endl;
+                    this->angle = - rotAngle+ item.getAngle();
+                } else {
+                    std::cout << "2" << std::endl;
+                    this->angle = pi - rotAngle + item.getAngle();
+                }
+            }
+        }
+    }
+}
+
+void Ball::boundaryCollisionCheck() {
+    float pi = 3.141592654;
+    if (std::abs(this->posX) >= 1) {
+        this->angle = (pi - this->angle);
+    }
+
+    if (std::abs(this->posY) >= 0.6) {
+        this->angle = -(this->angle);
+    }
+}

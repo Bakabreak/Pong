@@ -12,10 +12,9 @@ public:
     float posY = 0;
     float lastPosX = 0;
     float lastPosY = 0;
-    float speed = 0.005;
-    float angle = 0;
+    float speed = 0.008;
+    float angle = 0 ;
     float radius;
-    float playerLine;
 
     explicit Ball(float ballRadius);
 
@@ -25,7 +24,9 @@ public:
 
     void setAngle(float angle);
 
-    void collisionCheck(std::list<Player>& playerList);
+    void collisionCheck(std::list<CollisionBox> playerList);
+
+    void boundaryCollisionCheck();
 
     void renderBall();
 };
