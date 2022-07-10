@@ -24,7 +24,7 @@ public:
 
     void setAngle(float angle);
 
-    void collisionCheck(std::list<CollisionBox> playerList);
+    void collisionCheck(std::list<CollisionBox*> playerList);
 
     void boundaryCollisionCheck();
 

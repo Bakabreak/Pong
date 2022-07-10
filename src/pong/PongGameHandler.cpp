@@ -5,7 +5,8 @@
 #include "PongGameHandler.h"
 #include "../Input.h"
 #include <list>
-std::list<CollisionBox> playerList;
+
+std::list<CollisionBox *> playerList;
 
 void PongGameHandler::initialize() {
     player1.setHeight(0.1);
@@ -18,16 +19,16 @@ void PongGameHandler::initialize() {
     player2.updatePos(0.95, 0.1);
     player2.setAngle(0);
 
+    playerList.insert(playerList.end(), &player1);
+    playerList.insert(playerList.end(), &player2);
 }
+
 void PongGameHandler::update() {
-    playerList.insert(playerList.end(),player1);
-    playerList.insert(playerList.end(),player2);
-    ball.collisionCheck(playerList);
-    ball.boundaryCollisionCheck();
-    ball.update();
     player1.update();
     player2.update();
-    playerList.clear();
+    ball.update();
+    ball.collisionCheck(playerList);
+    ball.boundaryCollisionCheck();
 }
 
 void PongGameHandler::render() {
