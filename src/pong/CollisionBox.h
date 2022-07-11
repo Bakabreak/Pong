@@ -5,6 +5,8 @@
 #ifndef PONG_COLLISIONBOX_H
 #define PONG_COLLISIONBOX_H
 
+#include <tuple>
+
 class CollisionBox {
 protected:
     float posX;
@@ -22,6 +24,10 @@ public:
     float getWidth();
 
     float getHeight();
+
+    bool collisionCheck(float posX, float posY, float distanceX, float distanceY);
+
+    void transform(float posX, float posY, float* rotPosX, float* rotPosY);
 
 };
 

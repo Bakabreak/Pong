@@ -4,8 +4,10 @@
 
 #ifndef BALL_H
 #define BALL_H
+
 #include <list>
 #include "Player.h"
+
 class Ball {
 public:
     float posX = 0;
@@ -13,7 +15,7 @@ public:
     float lastPosX = 0;
     float lastPosY = 0;
     float speed = 0.008;
-    float angle = 0 ;
+    float angle = 0;
     float radius;
 
     explicit Ball(float ballRadius);
@@ -24,7 +26,7 @@ public:
 
     void setAngle(float angle);
 
-    void collisionCheck(std::list<CollisionBox*> playerList);
+    void collisionAction(std::list<CollisionBox *> playerList);
 
     void boundaryCollisionCheck();
 

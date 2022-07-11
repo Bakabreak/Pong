@@ -28,7 +28,7 @@ void Ball::setAngle(float aAngle) {
 }
 
 void Ball::renderBall() {
-    int vertMax = 20;
+    int vertMax = 100;
     float vertAngle = 0;
     float pi = 3.141592654;
 
@@ -41,13 +41,7 @@ void Ball::renderBall() {
     glEnd();
 }
 
-void Ball::collisionCheck(std::list<CollisionBox*> aPlayerList) {
-    float transPosX;
-    float transPosY;
-    float rotPosX;
-    float rotPosY;
-    float transLastPosX;
-    float transLastPosY;
+void Ball::collisionAction(std::list<CollisionBox *> aPlayerList) {
     float rotLastPosX;
     float rotLastPosY;
     float pi = 3.141592654;
@@ -55,32 +49,30 @@ void Ball::collisionCheck(std::list<CollisionBox*> aPlayerList) {
     float cornerAngle;
     float normRotAngle;
     float relativeAngle;
+    float distanceX;
+    float distanceY;
 
-    for (CollisionBox* item: aPlayerList) {
-        transPosX = this->posX - item->getPosX();
-        transPosY = this->posY - item->getPosY();
-        rotPosX = transPosX * std::cos(item->getAngle()) + transPosY * std::sin(item->getAngle());
-        rotPosY = -transPosX * std::sin(item->getAngle()) + transPosY * std::cos(item->getAngle());
-        transLastPosX = this->lastPosX - item->getPosX();
-        transLastPosY = this->lastPosY - item->getPosY();
-        rotLastPosX = transLastPosX * std::cos(item->getAngle()) + transLastPosY * std::sin(item->getAngle());
-        rotLastPosY = -transLastPosX * std::sin(item->getAngle()) + transLastPosY * std::cos(item->getAngle());
+    for (CollisionBox *item: aPlayerList) {
+        distanceX = item->getWidth() / 2 + this->radius;
+        distanceY = item->getHeight() / 2 + this->radius;
 
+        item->transform(this->lastPosX, this->lastPosY, &rotLastPosX , &rotLastPosY);
         // Skip if already inside the collision box
-        if (std::abs(rotLastPosX) <= item->getWidth() / 2 + this->radius &&
-            std::abs(rotLastPosY) <= item->getHeight() / 2 + this->radius) {
+        if (std::abs(rotLastPosX) <= distanceX &&
+            std::abs(rotLastPosY) <= distanceY) {
             continue;
         }
 
         // Check if we are colliding
-        if (std::abs(rotPosX) < item->getWidth() / 2 + this->radius &&
-            std::abs(rotPosY) < item->getHeight() / 2 + this->radius) {
+        if (item->collisionCheck(this->posX, this->posY, distanceX, distanceY)) {
 
             rotAngle = this->angle - item->getAngle();
             normRotAngle = std::fmod(std::fmod(rotAngle, 2 * pi) + 2 * pi, 2 * pi);
 
             if (normRotAngle >= 0 && normRotAngle <= 0.5 * pi) {
-                cornerAngle = std::fmod(std::atan2(-item->getHeight() / 2 - rotLastPosY, -item->getWidth() / 2 - rotLastPosX) + 2 * pi, 2 * pi);
+                cornerAngle = std::fmod(
+                        std::atan2(-item->getHeight() / 2 - rotLastPosY, -item->getWidth() / 2 - rotLastPosX) + 2 * pi,
+                        2 * pi);
                 relativeAngle = std::fmod(cornerAngle - normRotAngle + 2 * pi, 2 * pi);
                 if (relativeAngle > pi)
                     this->angle = (pi - rotAngle) + item->getAngle();
@@ -88,7 +80,9 @@ void Ball::collisionCheck(std::list<CollisionBox*> aPlayerList) {
                     this->angle = -rotAngle + item->getAngle();
             }
             if (normRotAngle > 0.5 * pi && normRotAngle <= pi) {
-                cornerAngle = std::fmod(std::atan2(-item->getHeight() / 2 - rotLastPosY, item->getWidth() / 2 - rotLastPosX) + 2 * pi, 2 * pi);
+                cornerAngle = std::fmod(
+                        std::atan2(-item->getHeight() / 2 - rotLastPosY, item->getWidth() / 2 - rotLastPosX) + 2 * pi,
+                        2 * pi);
                 relativeAngle = std::fmod(cornerAngle - normRotAngle + 2 * pi, 2 * pi);
                 if (relativeAngle > pi)
                     this->angle = -rotAngle + item->getAngle();
@@ -96,7 +90,9 @@ void Ball::collisionCheck(std::list<CollisionBox*> aPlayerList) {
                     this->angle = pi - rotAngle + item->getAngle();
             }
             if (normRotAngle > pi && normRotAngle <= 1.5 * pi) {
-                cornerAngle = std::fmod(std::atan2(item->getHeight() / 2 - rotLastPosY, item->getWidth() / 2 - rotLastPosX) + 2 * pi, 2 * pi);
+                cornerAngle = std::fmod(
+                        std::atan2(item->getHeight() / 2 - rotLastPosY, item->getWidth() / 2 - rotLastPosX) + 2 * pi,
+                        2 * pi);
                 relativeAngle = std::fmod(cornerAngle - normRotAngle + 2 * pi, 2 * pi);
                 if (relativeAngle > pi)
                     this->angle = pi - rotAngle + item->getAngle();
@@ -104,7 +100,9 @@ void Ball::collisionCheck(std::list<CollisionBox*> aPlayerList) {
                     this->angle = -rotAngle + item->getAngle();
             }
             if (normRotAngle > 1.5 * pi && normRotAngle <= 2 * pi) {
-                cornerAngle = std::fmod(std::atan2(item->getHeight() / 2 - rotLastPosY, -item->getWidth() / 2 - rotLastPosX) + 2 * pi, 2 * pi);
+                cornerAngle = std::fmod(
+                        std::atan2(item->getHeight() / 2 - rotLastPosY, -item->getWidth() / 2 - rotLastPosX) + 2 * pi,
+                        2 * pi);
                 relativeAngle = std::fmod(cornerAngle - normRotAngle + 2 * pi, 2 * pi);
                 if (relativeAngle > pi)
                     this->angle = -rotAngle + item->getAngle();
