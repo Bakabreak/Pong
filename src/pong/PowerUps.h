@@ -15,6 +15,8 @@ class PowerUps {
 
     void curve();
 
+    void shrink();
+
 };
 
 
