@@ -21,6 +21,10 @@ public:
 
     explicit Ball(float ballRadius);
 
+    Ball clone();
+
+    void setRadius(float ballRadius);
+
     void update();
 
     void setSpeed(float speed);

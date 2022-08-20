@@ -10,6 +10,27 @@
 
 Ball::Ball(float ballRadius) {
     this->radius = ballRadius;
+    this->setTag("ball");
+    this->setPos(0,0);
+}
+
+Ball Ball::clone(){
+    Ball ballClone(this->radius);
+
+    ballClone.setAngle(this->angle);
+    ballClone.setSpeed(this->speed);
+    ballClone.setPos(this->posX,this->posY);
+    ballClone.setWidth(this->getWidth());
+    ballClone.setHeight(this->getHeight());
+    ballClone.lastPosY = this->lastPosY;
+    ballClone.lastPosX = this->lastPosX;
+
+    return ballClone;
+
+}
+
+void Ball::setRadius(float ballRadius) {
+    this->radius = ballRadius;
 }
 
 void Ball::update() {
