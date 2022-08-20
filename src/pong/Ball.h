@@ -7,8 +7,9 @@
 
 #include <list>
 #include "Player.h"
+#include "Renderable.h"
 
-class Ball {
+class Ball : public CollisionBox, public Renderable{
 public:
     float posX = 0;
     float posY = 0;
@@ -30,7 +31,7 @@ public:
 
     void boundaryCollisionCheck();
 
-    void renderBall();
+    void render() override;
 };
 
 #endif

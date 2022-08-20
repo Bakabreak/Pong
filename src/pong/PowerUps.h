@@ -17,6 +17,15 @@ class PowerUps {
 
     void shrink();
 
+    void accelerate(CollisionBox object);
+
+    void curve(CollisionBox object);
+
+    void shrink(CollisionBox object);
+
+    void render() override;
+
+    bool update(std::list<Ball *>* ballList, std::list<CollisionBox *>* collisionBoxList, std::list<Renderable *>* renderList);
 };
 
 

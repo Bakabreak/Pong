@@ -6,8 +6,10 @@
 #define PLAYER_H
 
 #include "CollisionBox.h"
+#include "Renderable.h"
 
-class Player : public CollisionBox{
+class Player : public CollisionBox, public Renderable{
+
 public:
     int playerId;
     float speed = 0.01;
@@ -44,7 +46,7 @@ public:
 
     void updatePos(float xNew, float yNew);
 
-    void renderPlayer();
+    void render() override;
 
 };
 

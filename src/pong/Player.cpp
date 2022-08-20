@@ -74,7 +74,7 @@ void Player::update() {
     }
 };
 
-void Player::renderPlayer() {
+void Player::render() {
     glColor3f(1, 1, 1);
 
     glPushMatrix();

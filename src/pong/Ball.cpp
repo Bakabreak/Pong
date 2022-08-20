@@ -27,7 +27,7 @@ void Ball::setAngle(float aAngle) {
     this->angle = aAngle;
 }
 
-void Ball::renderBall() {
+void Ball::render() {
     int vertMax = 100;
     float vertAngle = 0;
     float pi = 3.141592654;

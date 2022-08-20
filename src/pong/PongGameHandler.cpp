@@ -42,9 +42,9 @@ void PongGameHandler::update() {
 }
 
 void PongGameHandler::render() {
-    player1.renderPlayer();
-    player2.renderPlayer();
-    ball.renderBall();
+    for (Renderable *object: renderList) {
+        object->render();
+    }
 }
 
 
