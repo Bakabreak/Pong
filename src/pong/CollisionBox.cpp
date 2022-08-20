@@ -4,7 +4,28 @@
 
 #include "CollisionBox.h"
 #include <cmath>
+#include <string>
 
+void CollisionBox::setTag(std::string aTag) {
+    this->tag = aTag;
+}
+
+std::string CollisionBox::getTag(){
+    return this->tag;
+}
+
+void CollisionBox::setWidth(float width) {
+    this->width = width;
+}
+
+void CollisionBox::setHeight(float height) {
+    this->height = height;
+}
+
+void CollisionBox::setPos(float posX, float posY){
+    this->posX = posX;
+    this->posY = posY;
+}
 float CollisionBox::getPosX() {
     return posX;
 }
@@ -29,8 +50,8 @@ void CollisionBox::transform(float aPosX, float aPosY, float *rotPosX, float *ro
     float transPosX;
     float transPosY;
 
-    transPosX = aPosX - this->getPosX();
-    transPosY = aPosY - this->getPosY();
+    transPosX = aPosX - this->posX;
+    transPosY = aPosY - this->posY;
     *rotPosX = transPosX * std::cos(this->getAngle()) + transPosY * std::sin(this->getAngle());
     *rotPosY = -transPosX * std::sin(this->getAngle()) + transPosY * std::cos(this->getAngle());
 }

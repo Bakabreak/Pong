@@ -5,6 +5,7 @@
 #include <GLFW/glfw3.h>
 #include "../Input.h"
 #include <cmath>
+#include <string>
 
 Player::Player(int aPlayerId, int aKeyUp, int aKeyDown, int aKeyLeft, int aKeyRight) {
     this->playerId = aPlayerId;
@@ -12,6 +13,7 @@ Player::Player(int aPlayerId, int aKeyUp, int aKeyDown, int aKeyLeft, int aKeyRi
     this->keyDown = aKeyDown;
     this->keyLeft = aKeyLeft;
     this->keyRight = aKeyRight;
+    this->setTag("player");
 }
 
 void Player::setWidth(float aWidth) {

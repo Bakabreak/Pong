@@ -6,6 +6,7 @@
 #define PONG_COLLISIONBOX_H
 
 #include <tuple>
+#include <string>
 
 class CollisionBox {
 protected:
@@ -13,8 +14,20 @@ protected:
     float posY;
     float width;
     float height;
-    float angle;
+    float angle = 0;
+    std::string tag;
 public:
+
+    std::string getTag();
+
+    void setTag(std::string tag);
+
+    void setWidth(float width);
+
+    void setHeight(float height);
+
+    void setPos(float posX, float posY);
+
     float getPosX();
 
     float getPosY();
