@@ -8,12 +8,14 @@
 #include "../GameHandler.h"
 #include "Player.h"
 #include "Ball.h"
-
+#include "PowerUps.h"
 class PongGameHandler : public GameHandler {
 public:
     PongGameHandler();
 
     void initialize() override;
+
+    void addGameObject(auto* object);
 
     void update() override;
 
@@ -23,6 +25,8 @@ private:
     Player player1;
     Player player2;
     Ball ball;
+    PowerUps powerUp1;
+
 };
 
 #endif

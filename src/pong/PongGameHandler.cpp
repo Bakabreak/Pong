@@ -6,7 +6,12 @@
 #include "../Input.h"
 #include <list>
 
-std::list<CollisionBox *> playerList;
+std::list<Player *> playerList;
+std::list<CollisionBox *> collisionBoxList;
+std::list<Ball *> ballList;
+std::list<Renderable *> renderList;
+std::list<PowerUps *> powerUpList;
+std::list<PowerUps *> removeList;
 
 void PongGameHandler::initialize() {
     player1.setHeight(0.1);
@@ -19,6 +24,7 @@ void PongGameHandler::initialize() {
     player2.updatePos(0.95, 0.1);
     player2.setAngle(0);
 
+    powerUp1.setPos(0.4, 0);
 //    player3.setHeight(0.1);
 //    player3.setWidth(0.0133);
 //    player3.updatePos(0.1, 0.55);
@@ -31,14 +37,32 @@ void PongGameHandler::initialize() {
 
     playerList.insert(playerList.end(), &player1);
     playerList.insert(playerList.end(), &player2);
+    ballList.insert(ballList.end(), &ball);
+    powerUpList.insert(powerUpList.end(), &powerUp1);
+    addGameObject(&ball);
+    addGameObject(&player1);
+    addGameObject(&player2);
+    addGameObject(&powerUp1);
 }
 
 void PongGameHandler::update() {
-    player1.update();
-    player2.update();
-    ball.update();
-    ball.collisionAction(playerList);
-    ball.boundaryCollisionCheck();
+    for (Player *player: playerList) {
+        player->update();
+    }
+    for (PowerUps *powerUps: powerUpList) {
+        if (powerUps->update(&ballList, &collisionBoxList,&renderList )) {
+        }
+    }
+    for (PowerUps *powerUps: removeList) {
+        renderList.remove(powerUps);
+        collisionBoxList.remove(powerUps);
+        powerUpList.remove(powerUps);
+    }
+    for (Ball *ballItem: ballList) {
+        ballItem->update();
+        ballItem->collisionAction(collisionBoxList);
+        ballItem->boundaryCollisionCheck();
+    }
 }
 
 void PongGameHandler::render() {
