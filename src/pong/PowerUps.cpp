@@ -46,4 +46,20 @@ void PowerUps::render() {
     glEnd();
 }
 
+bool PowerUps::update(std::list<Ball *>* ballList, std::list<CollisionBox *>* collisionBoxList, std::list<Renderable *>* renderList){
+    float distanceX;
+    float distanceY;
+    for (Ball *item: *ballList) {
+        distanceX = this->getWidth() / 2 + item->radius;
+        distanceY = this->getHeight() / 2 + item->radius;
+        if(item->collisionCheck(this->posX, this->posY, distanceX, distanceY)){
+            Ball ball2 = this->multiply(*item);
+            ballList->insert(ballList->end(),&ball2);
+            collisionBoxList->insert(collisionBoxList->end(),&ball2);
+            renderList->insert(renderList->end(),&ball2);
+            return true;
+        }
+
+    }
+    return false;
 }
