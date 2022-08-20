@@ -4,18 +4,24 @@
 
 #ifndef PONG_POWERUPS_H
 #define PONG_POWERUPS_H
+#include "CollisionBox.h"
+#include "Ball.h"
 
+class PowerUps : public CollisionBox, public Renderable{
 
-class PowerUps {
-    void expand();
+public:
+    float color;
+    int mode;
 
-    void multiply();
+    explicit PowerUps(float width, float height);
 
-    void accelerate();
+    void setPos(float xPos, float yPos);
 
-    void curve();
+    void expand(Ball *ball);
 
-    void shrink();
+    Ball multiply(Ball ball);
+
+    void collisionAction(auto* object);
 
     void accelerate(CollisionBox object);
 
