@@ -11,12 +11,9 @@
 
 class Ball : public CollisionBox, public Renderable{
 public:
-    float posX = 0;
-    float posY = 0;
     float lastPosX = 0;
     float lastPosY = 0;
     float speed = 0.008;
-    float angle = 0;
     float radius;
 
     explicit Ball(float ballRadius);

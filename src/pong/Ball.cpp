@@ -74,10 +74,16 @@ void Ball::collisionAction(std::list<CollisionBox *> aPlayerList) {
     float distanceY;
 
     for (CollisionBox *item: aPlayerList) {
+
+        if (this == item || item->getTag().compare("powerUp") == 0) {
+            continue;
+        }
+
+
         distanceX = item->getWidth() / 2 + this->radius;
         distanceY = item->getHeight() / 2 + this->radius;
 
-        item->transform(this->lastPosX, this->lastPosY, &rotLastPosX , &rotLastPosY);
+        item->transform(this->lastPosX, this->lastPosY, &rotLastPosX, &rotLastPosY);
         // Skip if already inside the collision box
         if (std::abs(rotLastPosX) <= distanceX &&
             std::abs(rotLastPosY) <= distanceY) {
