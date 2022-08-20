@@ -45,6 +45,18 @@ void PongGameHandler::initialize() {
     addGameObject(&powerUp1);
 }
 
+
+void PongGameHandler::addGameObject(auto *object) {
+    if (auto *v = dynamic_cast<CollisionBox *>(object)) {
+        // old was safely casted to NewType
+        collisionBoxList.insert(collisionBoxList.end(), object);
+    }
+    if (auto *v = dynamic_cast<Renderable *>(object)) {
+        // old was safely casted to NewType
+        renderList.insert(renderList.end(), object);
+    }
+}
+
 void PongGameHandler::update() {
     for (Player *player: playerList) {
         player->update();
