@@ -86,4 +86,5 @@ void PongGameHandler::render() {
 
 PongGameHandler::PongGameHandler() : player1(1, GLFW_KEY_W, GLFW_KEY_S, GLFW_KEY_A, GLFW_KEY_D),
                                      player2(2, GLFW_KEY_UP, GLFW_KEY_DOWN, GLFW_KEY_LEFT, GLFW_KEY_RIGHT),
-                                     ball(0.5) {}
+                                     ball(0.05),
+                                     powerUp1(0.05, 0.05) {}
